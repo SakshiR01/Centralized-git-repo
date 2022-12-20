@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: centralized-js
+  namespace: dev
+  labels:
+    app: centralized-js
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: centralized-js
+  template:
+    metadata:
+      labels:
+        app: centralized-js
+    spec:
+      containers:
+        - name: centralized-js
+          image: registry-np.geminisolutions.com/helpdesk/server
+          ports:
+            - name: centralized-js
+              containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: NODE_NAME
+              value: 'nodejs_runner_16'
+            - name: POD_TEMPLATE_NAME
+              value: 'nodejs-16'
+            - name: CONTAINER_NAME
+              value: 'nodejs-16'
+          
+      imagePullSecrets:
+        - name: regcred
