@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: centralized-js
-          image: registry-np.geminisolutions.com/helpdesk/server
+          image: registry-np.geminisolutions.com/centralized/server
           ports:
             - name: centralized-js
               containerPort: 3000
@@ -31,5 +31,5 @@ spec:
             - name: CONTAINER_NAME
               value: 'nodejs-16'
           
-      imagePullSecrets:
-        - name: regcred
+#       imagePullSecrets:
+#         - name: regcred
