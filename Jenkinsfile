@@ -14,7 +14,7 @@ env.CONTAINER_NAME = 'nodejs-16'
 node('nodejs_runner_16') {
       stage('repo_checkout') {
              dir ('repo') {
-             checkout([$class: 'GitSCM', branches: [[name: '*/nodejs']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
+             checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
     userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/Centralized-git-repo.git', poll: 'false']]])
              }
       }
