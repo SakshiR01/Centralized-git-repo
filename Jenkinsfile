@@ -29,7 +29,7 @@ node('nodejs_runner_16') {
          }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('nodejs-16') {
+                   container('docker-image-builder') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
                    sh '/usr/local/bin/kubectl rollout restart Deployment centralized-js -n main'
