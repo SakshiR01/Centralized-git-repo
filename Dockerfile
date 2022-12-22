@@ -20,8 +20,8 @@ RUN npm install pm2 -g
 # RUN the build.
 RUN npm run build
 
-ARG ENVIRONMENT
-ENV environment=$TYPE
+ARG TYPE
+ENV type=$TYPE
 RUN echo "Type: $type"
  
 # Starting the application using npm start
