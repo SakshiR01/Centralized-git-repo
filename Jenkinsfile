@@ -30,15 +30,12 @@ node('nodejs_runner_16') {
 
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('docker-image-builder-trivy') {
-                   kubeconfig(credentialsId: 'KubeConfigCred') {
+                   container('nodejs-16') {
                    sh 'pwd' 
                    sh 'sed -i -e "s/TYPE/$TYPE/g" deployment-nodejs.yaml'
 //                    sh 'sed -i -e "s/PORT/$PORT/g" deployment-nodejs.yaml'    
-                   sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment $TYPE -n main'
-
-                   }
+//                    sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
+//                    sh '/usr/local/bin/kubectl rollout restart Deployment $TYPE -n main'
                    }
                }
            }
