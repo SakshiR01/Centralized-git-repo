@@ -1,6 +1,6 @@
 properties([
     parameters([
-        choice(name: "TYPE", choices: ["nodejs-16", "java"], description: "LANGUAGES"),
+        choice(name: "TYPE", choices: ["nodejs", "java"], description: "LANGUAGES"),
     ])
 ])
 
