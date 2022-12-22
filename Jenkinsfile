@@ -39,8 +39,8 @@ node('nodejs_runner_16') {
                    }
                    }
                }      
-            finally {
-         sh 'echo current_image="registry-np.geminisolutions.com/$TYPE:1.0-$BUILD_NUMBER" > build.properties'
-         archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
-        }    
+//             finally {
+//          sh 'echo current_image="registry-np.geminisolutions.com/$TYPE:1.0-$BUILD_NUMBER" > build.properties'
+//          archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
+//         }    
         }
