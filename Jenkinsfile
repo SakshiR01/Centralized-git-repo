@@ -29,7 +29,7 @@ node('nodejs_runner_16') {
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
                   sh 'env'
-                  sh 'sed -i -e "s/TYPE/$TYPE/g" DockerFile'  
+                  sh 'sed -i -e "s/TYPE/$TYPE/g" Dockerfile'  
                   // sh 'npm install mongodb'
 //                   sh 'npm install'
 //                   sh 'npm run build'
