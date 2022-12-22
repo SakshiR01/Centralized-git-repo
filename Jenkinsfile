@@ -7,7 +7,7 @@ if (params.LANGUAGE == "nodejs") {
 env.NODE_NAME = 'nodejs_runner_16'
 env.POD_TEMPLATE_NAME = 'nodejs-16'
 env.CONTAINER_NAME = 'nodejs-16'
-env.DEPLOYMENT_NAME = 'docker-image-builder'    
+env.DEPLOYMENT_NAME = 'nodejs-16'    
 } else {
     env.NODE_NAME_1 = 'nodejs-14'
 }
@@ -30,7 +30,7 @@ node('nodejs_runner_16') {
          }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('docker-image-builder') {
+                   container('nodejs-16') {
                    sh 'env'
                    }
                }
