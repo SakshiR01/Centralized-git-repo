@@ -37,7 +37,7 @@ node('image_builder_trivy') {
 //                   sh 'echo environment is : $ENVIRONMENT'
                   sh 'pwd' 
                   sh 'sed -i -e "s/TYPE/$TYPE/g" DockerFile'
-                  sh 'sed -i -e "s/PORT/$PORT/g" DockerFile'
+//                   sh 'sed -i -e "s/PORT/$PORT/g" DockerFile'
                   sh 'docker image build -f Dockerfile --build-arg TYPE=$TYPE -t registry-np.geminisolutions.com/$TYPE:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$TYPE .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$TYPE:1.0-$BUILD_NUMBER > trivy-report.json'
 	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
@@ -55,7 +55,7 @@ node('image_builder_trivy') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh 'pwd' 
                    sh 'sed -i -e "s/TYPE/$TYPE/g" deployment-nodejs.yaml'
-                   sh 'sed -i -e "s/PORT/$PORT/g" deployment-nodejs.yaml'    
+//                    sh 'sed -i -e "s/PORT/$PORT/g" deployment-nodejs.yaml'    
                    sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
                    sh '/usr/local/bin/kubectl rollout restart Deployment $TYPE -n main'
 
@@ -64,7 +64,7 @@ node('image_builder_trivy') {
                }
            }
     } finally {
-         //sh 'echo current_image="registry-np.geminisolutions.com/helpdesk/server:1.0-$BUILD_NUMBER" > build.properties'
+         //sh 'echo current_image="registry-np.geminisolutions.com/$TYPE:1.0-$BUILD_NUMBER" > build.properties'
          //archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
          }
         }     
