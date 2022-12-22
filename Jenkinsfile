@@ -41,7 +41,7 @@ node('nodejs_runner_16') {
                    }
                }      
             finally {
-         //sh 'echo current_image="registry-np.geminisolutions.com/helpdesk/server:1.0-$BUILD_NUMBER" > build.properties'
-         //archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
+         sh 'echo current_image="registry-np.geminisolutions.com/$TYPE/server:1.0-$BUILD_NUMBER" > build.properties'
+         archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
         }    
         }
