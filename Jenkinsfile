@@ -25,7 +25,7 @@ node('nodejs_runner_16') {
                   //sh 'npm cache clean --force'
                   sh 'env'
                   // sh 'npm install mongodb'
-                  sh 'npm install'
+//                   sh 'npm install'
                   sh 'npm run build'
             }
            }
