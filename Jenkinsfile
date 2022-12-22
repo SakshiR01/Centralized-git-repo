@@ -8,7 +8,7 @@ env.NODE_NAME = 'nodejs_runner_16'
 env.POD_TEMPLATE_NAME = 'nodejs-16'
 env.CONTAINER_NAME = 'nodejs-16'	
 } else {
-    env.NODE_NAME_1 = 'maven_runner_java17'
+    env.NODE_NAME_1 = 'nodejs-14'
 }
 
 node('nodejs_runner_16') {
