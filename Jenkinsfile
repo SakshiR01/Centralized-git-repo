@@ -34,7 +34,7 @@ node('nodejs_runner_16') {
                dir ('repo') {
                    container('nodejs-16') {
                    sh 'pwd' 
-                   sh 'sed -i -e "s/TYPE/$TYPE/g" Deployment-nodejs.yaml'
+                   sh 'sed -i -e "s/TYPE/$TYPE/g" deployment-nodejs.yaml'
 
                    }
                    }
