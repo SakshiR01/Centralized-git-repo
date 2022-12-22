@@ -22,10 +22,10 @@ RUN npm run build
 
 ARG TYPE
 ENV type=$TYPE
-RUN echo "Type: $type"
+RUN echo "Type: $TYPE"
  
 # Starting the application using npm start
-CMD ["sh", "-c", "pm2-runtime --env $type /src/ecosystem.config.js"]
+CMD ["sh", "-c", "pm2-runtime --env $TYPE /src/ecosystem.config.js"]
 
 # pm2-logrotate setup
 RUN pm2 install pm2-logrotate@2.6.0
