@@ -29,6 +29,8 @@ spec:
               value: 'nodejs-16'
             - name: CONTAINER_NAME
               value: 'nodejs-16'
+            - name: DEPLOYMENT_NAME
+              value: 'docker-image-builder'
           
 #       imagePullSecrets:
 #         - name: regcred
