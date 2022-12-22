@@ -1,26 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: TYPE
-  labels:
-    app: TYPE
+ name: TYPE
+ namespace: dev
+ labels:
+  app: TYPE
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
-    matchLabels:
-      app: TYPE
+   matchLabels:
+    app: TYPE
   template:
     metadata:
-      labels:
-        app: TYPE
+       labels:
+         app: TYPE
     spec:
-      containers:
-        - name: TYPE
-          image: registry-np.geminisolutions.com/TYPE
-          ports:
-            - name: TYPE
-              containerPort: 5000
-          imagePullPolicy: Always          
-        imagePullSecrets:
-        - name: regcred
+     containers:
+     - name: TYPE
+       image: registry-np.geminisolutions.com/ats/SERVICES
+       ports:
+       - name: TYPE
+         containerPort: 5000
+       imagePullPolicy: Always
+     imagePullSecrets:
+     - name: regcred
