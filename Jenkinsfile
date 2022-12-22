@@ -33,7 +33,7 @@ node('nodejs_runner_16') {
                    container('nodejs-16') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment centralized-js -n main'
+                   sh '/usr/local/bin/kubectl rollout restart Deployment centralized -n main'
 
                    }
                    }
