@@ -20,7 +20,7 @@ spec:
           image: registry-np.geminisolutions.com/centralized/server
           ports:
             - name: centralized-js
-              containerPort: 3000
+              containerPort: 5000
           imagePullPolicy: Always
           env:
             - name: NODE_NAME
@@ -30,7 +30,7 @@ spec:
             - name: CONTAINER_NAME
               value: 'nodejs-16'
             - name: DEPLOYMENT_NAME
-              value: 'docker-image-builder'
+              value: 'nodejs-16'
           
 #       imagePullSecrets:
 #         - name: regcred
