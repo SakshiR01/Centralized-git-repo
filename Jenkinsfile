@@ -6,7 +6,8 @@ properties([
 if (params.LANGUAGE == "nodejs") {
 env.NODE_NAME = 'nodejs_runner_16'
 env.POD_TEMPLATE_NAME = 'nodejs-16'
-env.CONTAINER_NAME = 'nodejs-16'	
+env.CONTAINER_NAME = 'nodejs-16'
+env.DEPLOYMENT_NAME = 'docker-image-builder'    
 } else {
     env.NODE_NAME_1 = 'nodejs-14'
 }
