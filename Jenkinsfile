@@ -7,8 +7,13 @@ if (params.TYPE == "nodejs") {
 env.NODE_NAME = 'nodejs_runner_16'
 env.POD_TEMPLATE_NAME = 'nodejs-16'
 env.CONTAINER_NAME = 'nodejs-16' 
-} else {
-    env.NODE_NAME_1 = 'nodejs-14'
+} 
+else if(params.TYPE == "nodejs-12")
+{
+    env.NODE_NAME = 'nodejs_runner' 
+}
+else {
+    env.NODE_NAME = 'java'
 }
 
 node('nodejs_runner_16') {
