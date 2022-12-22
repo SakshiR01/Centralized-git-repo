@@ -12,7 +12,7 @@ env.CONTAINER_NAME = 'nodejs-16'
 }
 
 node('nodejs_runner_16') {
-      stage('repo_checkout') {
+      stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
     userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/Centralized-git-repo.git', poll: 'false']]])
@@ -28,14 +28,10 @@ node('nodejs_runner_16') {
            }
          }
 
-       stage('Deployment_stage') {
+       stage('Nodejs_Deployment') {
                dir ('repo') {
                    container('nodejs-16') {
-                   kubeconfig(credentialsId: 'KubeConfigCred') {
-                   sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment centralized -n main'
-
-                   }
+                   sh 'env'
                    }
                }
            }
