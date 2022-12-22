@@ -33,4 +33,4 @@ RUN pm2 install pm2-logrotate@2.6.0
 RUN pm2 set pm2-logrotate:retain 2
 
 # Expose port 
-EXPOSE 3000
+EXPOSE 5000
