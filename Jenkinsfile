@@ -39,40 +39,37 @@ node('nodejs_runner_16') {
            }
          }
        }
-    node('image_builder_trivy') {
+node('image_builder_trivy') {
        try {
        stage('Build_image') {
                 dir ('repo') {
                   container('docker-image-builder-trivy') {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                    sh 'pwd' 
-                    sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/REGISTRY/$REGISTRY/g" DockerFile deployment-nodejs.yaml' 
-		    sh 'cat DockerFile'
-                    sh 'docker image build -f DockerFile -t registry-np.geminisolutions.com/ats/$NODE_NAME1:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/ats/$NODE_NAME1 .'
-                    // sh 'trivy image -f json registry-np.geminisolutions.com/ats/$NODE_NAME1:1.0-$BUILD_NUMBER > trivy-report.json'
-	                //    archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true   
+                  sh 'echo TYPE is : $NODE_NAME1'
+                  sh 'docker image build -f Dockerfile --build-arg NODE_NAME1=$NODE_NAME1 -t registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME1 .'
+                  sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER > trivy-report.json'
+	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
                     sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
-                    sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER'
-                    sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1'
+                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER'
+                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1'
+                  sh 'rm -rf build/'
                }
              }
             }
        }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('nodejs-16') {
+                   container('docker-image-builder-trivy') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n main'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment TYPE -n main'
+                   sh '/usr/local/bin/kubectl rollout restart Deployment $NODE_NAME1 -n main'
 
                    }
                    }
                }
            }
-        }
-    } 
-// 	    finally {
-//          sh 'echo current_image="registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER" > build.properties'
-//          archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
-//          }
+    } finally {
+         //sh 'echo current_image="registry-np.geminisolutions.com/helpdesk/server:1.0-$BUILD_NUMBER" > build.properties'
+         //archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
+         }
         }
