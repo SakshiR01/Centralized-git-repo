@@ -42,18 +42,18 @@ node('nodejs_runner_16') {
     node('image_builder_trivy') {
        try {
        stage('Build_image') {
-                dir ('helpdesk') {
+                dir ('repo') {
                   container('docker-image-builder-trivy') {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                     sh 'pwd' 
-                    sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/REGISTRY/$REGISTRY/g" DockerFile deployment-beta.yaml' 
+                    sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/REGISTRY/$REGISTRY/g" DockerFile deployment-nodejs.yaml' 
 		    sh 'cat DockerFile'
                     sh 'docker image build -f DockerFile -t registry-np.geminisolutions.com/ats/$NODE_NAME1:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/ats/$NODE_NAME1 .'
                     // sh 'trivy image -f json registry-np.geminisolutions.com/ats/$NODE_NAME1:1.0-$BUILD_NUMBER > trivy-report.json'
 	                //    archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true   
                     sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
-                    sh 'docker push registry-np.geminisolutions.com/ats/$NODE_NAME1:1.0-$BUILD_NUMBER'
-                    sh 'docker push registry-np.geminisolutions.com/ats/$NODE_NAME1'
+                    sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER'
+                    sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1'
                }
              }
             }
@@ -70,9 +70,8 @@ node('nodejs_runner_16') {
                }
            }
         }
-     }  
-// finally {
-//          sh 'echo current_image="registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER" > build.properties'
-//          archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
-//          }
+    } finally {
+         sh 'echo current_image="registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER" > build.properties'
+         archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
+         }
         }
