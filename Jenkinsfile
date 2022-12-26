@@ -49,7 +49,7 @@ node('image_builder_trivy') {
                   container('docker-image-builder-trivy') {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                   sh 'echo TYPE is : $NODE_NAME1'
-		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" DockerFile deployment-nodejs.yaml' 
+		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" Dockerfile deployment-nodejs.yaml' 
 		  sh 'cat DockerFile'	  
                   sh 'docker image build -f Dockerfile --build-arg NODE_NAME1=$NODE_NAME1 -t registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME1 .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER > trivy-report.json'
