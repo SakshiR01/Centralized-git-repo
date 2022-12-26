@@ -3,16 +3,17 @@ properties([
         choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
     ])
 ])
-if (params.TYPE == "nodejs-16") {
-env.NODE_NAME1 = 'nodejs_runner_16' 
+if (params.TYPE == "nodejs-16") 
+{
+    env.NODE_NAME = 'nodejs_runner_16' 
 } 
 else if(params.TYPE == "nodejs-14")
 {
-    env.NODE_NAME2 = 'nodejs_runner_14' 
+    env.NODE_NAME = 'nodejs_runner_14' 
 }
 else if(params.TYPE == "nodejs-12")
 {
-    env.NODE_NAME3 = 'nodejs_runner' 
+    env.NODE_NAME = 'nodejs_runner' 
 }
 else {
     env.NODE_NAME = 'java-11'
@@ -51,12 +52,12 @@ node('image_builder_trivy') {
                   sh 'echo TYPE is : $NODE_NAME1'
 		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" Dockerfile deployment-nodejs.yaml' 
 		  sh 'cat Dockerfile'	  
-                  sh 'docker image build -f Dockerfile --build-arg NODE_NAME1=$NODE_NAME1 -t registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME1 .'
-                  sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER > trivy-report.json'
+                  sh 'docker image build -f Dockerfile --build-arg NODE_NAME=$NODE_NAME -t registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME .'
+                  sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER > trivy-report.json'
 	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
                     sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
-                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER'
-                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME1'
+                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER'
+                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME'
                   sh 'rm -rf build/'
                }
              }
