@@ -66,8 +66,8 @@ node('image_builder_trivy') {
                dir ('repo') {
                    container('docker-image-builder-trivy') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
-                   sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n dev'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment $NODE_NAME1 -n dev'
+                   sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml --namespace=main'
+                   sh '/usr/local/bin/kubectl rollout restart Deployment $NODE_NAME1 --namespace=main'
 
                    }
                    }
