@@ -50,7 +50,7 @@ node('image_builder_trivy') {
                   container('docker-image-builder-trivy') {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                   sh 'echo TYPE is : $NODE_NAME1'
-		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" Dockerfile deployment-nodejs.yaml' 
+		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" Dockerfile deployment-type.yaml' 
 		  sh 'cat Dockerfile'	  
                   sh 'docker image build -f Dockerfile --build-arg NODE_NAME=$NODE_NAME -t registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER > trivy-report.json'
@@ -67,7 +67,7 @@ node('image_builder_trivy') {
                dir ('repo') {
                    container('docker-image-builder-trivy') {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
-                   sh '/usr/local/bin/kubectl apply -f deployment-nodejs.yaml -n dev'
+                   sh '/usr/local/bin/kubectl apply -f deployment-type.yaml -n dev'
                    sh '/usr/local/bin/kubectl rollout restart Deployment $NODE_NAME -n dev'
 
                    }
