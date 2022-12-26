@@ -16,7 +16,7 @@ else {
     env.NODE_NAME = 'java'
 }
 
-node('nodejs_runner_16') {
+node('NODE_NAME') {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
@@ -24,7 +24,7 @@ node('nodejs_runner_16') {
              }
       }
       stage('Nodejs_Build') {
-            container('nodejs-16') {
+            container('CONTAINER_NAME') {
                 dir ('helpdesk'){
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
@@ -44,7 +44,7 @@ node('nodejs_runner_16') {
          }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('nodejs-16') {
+                   container('CONTAINER_NAME') {
                    sh 'pwd' 
                    sh 'sed -i -e "s/TYPE/$TYPE/g" deployment-nodejs.yaml'
 
