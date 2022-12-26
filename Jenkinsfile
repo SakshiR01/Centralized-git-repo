@@ -19,7 +19,7 @@ else {
     env.NODE_NAME = 'java-11'
 }
 
-node('nodejs_runner_16') {
+node{
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
@@ -50,7 +50,7 @@ node('image_builder_trivy') {
                   container('docker-image-builder-trivy') {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                   sh 'echo TYPE is : $NODE_NAME1'
-		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME1/$NODE_NAME1/g" Dockerfile deployment-type.yaml' 
+		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME/$NODE_NAME/g" Dockerfile deployment-type.yaml' 
 		  sh 'cat Dockerfile'	  
                   sh 'docker image build -f Dockerfile --build-arg NODE_NAME=$NODE_NAME -t registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER > trivy-report.json'
