@@ -35,7 +35,7 @@ node{
                   // sh 'npm install mongodb'
 //                   sh 'npm install'
 //                   sh 'npm run build'
-                  dir ("${env.TYPE}/target"){
+                  dir ("${env.NODE_NAME}/target"){
 		sh 'pwd'
 //                 sh 'chmod +x *.jar'
               }
