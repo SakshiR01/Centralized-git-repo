@@ -33,8 +33,11 @@ node('nodejs_runner_16') {
                   sh 'env'
                   // sh 'npm install mongodb'
 //                   sh 'npm install'
-                  sh 'npm run build'
-                  dir ("${env.TYPE}/target")
+//                   sh 'npm run build'
+                  dir ("${env.TYPE}/target"){
+		sh 'pwd'
+//                 sh 'chmod +x *.jar'
+              }
             }
            }
          }
