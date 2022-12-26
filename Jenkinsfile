@@ -70,8 +70,9 @@ node('nodejs_runner_16') {
                }
            }
         }
-    }  finally {
+     }  
+// finally {
 //          sh 'echo current_image="registry-np.geminisolutions.com/$NODE_NAME1:1.0-$BUILD_NUMBER" > build.properties'
 //          archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
-         }
+//          }
         }
