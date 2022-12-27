@@ -5,6 +5,8 @@ properties([
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
 ])
+env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
+env.BRANCH= "*/main*
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
@@ -19,6 +21,7 @@ else if(params.TYPE == "nodejs-14")
     env.NODE_NAME = 'nodejs_runner_14' 
     env.CONTAINER_NAME = 'nodejs-14'
     env.STAGE_NAME = 'Nodejs_Build'
+    env.cmd1= 'npm install mongodb'
 }
 else if(params.TYPE == "nodejs-12")
 {
@@ -35,8 +38,8 @@ else {
 node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
-             checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
-    userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/Centralized-git-repo.git', poll: 'false']]])
+             checkout([$class: 'GitSCM', branches: [[name: "$BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
+    userRemoteConfigs: [[credentialsId: 'admingithub', url: "$SSH_LINK", poll: 'false']]])
              }
       }
 	stage("${env.STAGE_NAME}") {
@@ -45,9 +48,7 @@ node ("${env.NODE_NAME}") {
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
                   sh 'env'
-                  // sh 'npm install mongodb'
-//                   sh 'npm install'
-//                   sh 'npm run build'
+                  sh $cmd1
                   dir ("${env.SERVICE}/target"){
 		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
