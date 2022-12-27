@@ -48,7 +48,7 @@ node ("${env.NODE_NAME}") {
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
                   sh 'env'
-                  sh $cmd1
+		  sh "${env.cmd1}"
                   dir ("${env.SERVICE}/target"){
 		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
