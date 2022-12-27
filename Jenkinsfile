@@ -15,6 +15,7 @@ if (params.TYPE == "nodejs-16")
     env.NODE_NAME = 'nodejs_runner_16' 
     env.CONTAINER_NAME = 'nodejs-16'
     env.STAGE_NAME = 'Nodejs_Build'
+    env.CMD1= 'npm install mongodb'
 } 
 else if(params.TYPE == "nodejs-14")
 {
@@ -47,9 +48,11 @@ node ("${env.NODE_NAME}") {
                 dir ('repo'){
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
-		  when { expression {env.NODE_NAME = 'nodejs_runner_14' || env.NODE_NAME = 'nodejs_runner_16'} }
-                  sh 'env'
-		  sh "${env.CMD1}"
+		  if (env.NODE_NAME = 'nodejs_runner_16'  || env.NODE_NAME = 'nodejs_runner_14')
+			{
+                  	  sh 'env'
+		  	  sh "${env.CMD1}"
+			}
                   dir ("${env.SERVICE}/target"){
 		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
