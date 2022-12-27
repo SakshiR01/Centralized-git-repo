@@ -19,7 +19,7 @@ else {
     env.NODE_NAME = 'java-11'
 }
 
-node('nodejs_runner_16') {
+node('nodejsrunner16') {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
