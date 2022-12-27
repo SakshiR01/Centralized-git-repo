@@ -40,7 +40,7 @@ node ("${env.NODE_NAME}") {
              }
       }
       stage($STAGE_NAME) {
-            container($CONTAINER_NAME) {
+	      container("${env.CONTAINER_NAME}") {
                 dir ('repo'){
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
@@ -56,11 +56,11 @@ node ("${env.NODE_NAME}") {
            }
          }
        }
-node($TRIVY_NODE) {
+node("${env.TRIVY_NODE}") {
        try {
        stage('Build_image') {
                 dir ('repo') {
-                  container($TRIVY_CONTAINER) {
+			container("${env.TRIVY_CONTAINER}") {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 //   sh 'echo TYPE is : $SERVICE'
 		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
@@ -79,7 +79,7 @@ node($TRIVY_NODE) {
        }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container($TRIVY_CONTAINER) {
+                   container("${env.TRIVY_CONTAINER}") {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh '/usr/local/bin/kubectl apply -f deployment-beta.yaml -n dev'
                    sh '/usr/local/bin/kubectl rollout restart Deployment $REGISTRY -n dev'
