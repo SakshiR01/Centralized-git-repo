@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: NODE_NAME
-  namespace: main
+  namespace: dev
   labels:
     app: NODE_NAME
 spec:
@@ -29,7 +29,7 @@ spec:
             - name: NODE_NAME
               value: 'nodejs_runner_14'
             - name: NODE_NAME
-              value: 'nodejs_runner_12'
+              value: 'nodejs_runner'
             - name: NODE_NAME
               value: 'java11'  
       imagePullSecrets:
