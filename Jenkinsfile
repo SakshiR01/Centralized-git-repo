@@ -1,33 +1,46 @@
 properties([
     parameters([
         choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
+        choice(name: "SERVICES", choices: ["abcd", "efgh", "ijkl", "mnop"], description: "services to be build"),
+        choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
 ])
+
+env.TRIVY_NODE = 'image_builder_trivy'
+env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
 if (params.TYPE == "nodejs-16") 
 {
-    env.NODE_NAME = 'nodejsrunner16' 
+    env.NODE_NAME = 'nodejs_runner_16' 
+    env.CONTAINER_NAME = 'nodejs-16'
+    env.STAGE_NAME = 'Nodejs_Build'
 } 
 else if(params.TYPE == "nodejs-14")
 {
-    env.NODE_NAME = 'nodejsrunner14' 
+    env.NODE_NAME = 'nodejs_runner_14' 
+    env.CONTAINER_NAME = 'nodejs-14'
+    env.STAGE_NAME = 'Nodejs_Build'
 }
 else if(params.TYPE == "nodejs-12")
 {
-    env.NODE_NAME = 'nodejsrunner12' 
+    env.NODE_NAME = 'nodejs_runner'
+    env.CONTAINER_NAME = 'nodejs-12'
+    env.STAGE_NAME = 'Nodejs_Build' 
 }
 else {
-    env.NODE_NAME = 'java-11'
+    env.NODE_NAME = 'maven_runner_java11'
+    env.CONTAINER_NAME = 'maven-runner-11'
+    env.STAGE_NAME = 'maven_Build'
 }
 
-node('nodejs_runner_16') {
+node ($SERVICE) {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
     userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/Centralized-git-repo.git', poll: 'false']]])
              }
       }
-      stage('Nodejs_Build') {
-            container('nodejs-16') {
+      stage($STAGE_NAME) {
+            container($CONTAINER_NAME) {
                 dir ('repo'){
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
@@ -35,29 +48,30 @@ node('nodejs_runner_16') {
                   // sh 'npm install mongodb'
 //                   sh 'npm install'
 //                   sh 'npm run build'
-                  dir ("${env.NODE_NAME}/target"){
-		sh 'pwd'
+                  dir ("${env.SERVICE}/target"){
+		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
               }
             }
            }
          }
        }
-node('image_builder_trivy') {
+node($TRIVY_NODE) {
        try {
        stage('Build_image') {
                 dir ('repo') {
-                  container('docker-image-builder-trivy') {
+                  container($TRIVY_CONTAINER) {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                  sh 'echo TYPE is : $NODE_NAME'
-		  sh 'sed -i -e "s/TYPE/$TYPE/g" -e "s/NODE_NAME/$NODE_NAME/g" Dockerfile deployment-type.yaml' 
-		  sh 'cat Dockerfile'	  
-                  sh 'docker image build -f Dockerfile --build-arg NODE_NAME=$NODE_NAME -t registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$NODE_NAME .'
-                  sh 'trivy image -f json registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER > trivy-report.json'
+                  sh 'echo TYPE is : $SERVICE'
+		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
+                  sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g" Dockerfile deployment-beta.yaml' 
+		          sh 'cat Dockerfile'	  
+                  sh 'docker image build -f Dockerfile --build-arg SERVICE=$SERVICE -t registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$SERVICE .'
+                  sh 'trivy image -f json registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER > trivy-report.json'
 	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
-                    sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
-                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME:1.0-$BUILD_NUMBER'
-                  sh 'docker push registry-np.geminisolutions.com/$NODE_NAME'
+                  sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
+                  sh 'docker push registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER'
+                  sh 'docker push registry-np.geminisolutions.com/$SERVICE'
                   sh 'rm -rf build/'
                }
              }
@@ -65,10 +79,10 @@ node('image_builder_trivy') {
        }
        stage('Deployment_stage') {
                dir ('repo') {
-                   container('docker-image-builder-trivy') {
+                   container($TRIVY_CONTAINER) {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
-                   sh '/usr/local/bin/kubectl apply -f deployment-type.yaml -n dev'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment $NODE_NAME -n dev'
+                   sh '/usr/local/bin/kubectl apply -f deployment-beta.yaml -n dev'
+                   sh '/usr/local/bin/kubectl rollout restart Deployment $SERVICE -n dev'
 
                    }
                    }
