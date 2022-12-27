@@ -5,11 +5,11 @@ properties([
 ])
 if (params.TYPE == "nodejs-16") 
 {
-    env.NODE_NAME = 'nodejs_runner_16' 
+    env.NODE_NAME = 'nodejs-runner-16' 
 } 
 else if(params.TYPE == "nodejs-14")
 {
-    env.NODE_NAME = 'nodejs_runner_14' 
+    env.NODE_NAME = 'nodejs-runner-14' 
 }
 else if(params.TYPE == "nodejs-12")
 {
