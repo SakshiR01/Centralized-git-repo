@@ -23,14 +23,5 @@ spec:
             - name: NODE_NAME
               containerPort: 5000
           imagePullPolicy: Always
-          env:
-            - name: NODE_NAME
-              value: 'nodejs_runner_16'
-            - name: NODE_NAME
-              value: 'nodejs_runner_14'
-            - name: NODE_NAME
-              value: 'nodejs_runner'
-            - name: NODE_NAME
-              value: 'java11'  
       imagePullSecrets:
         - name: regcred
