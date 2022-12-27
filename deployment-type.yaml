@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: NODE_NAME
-  namespace: dev
+  namespace: main
   labels:
     app: NODE_NAME
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: NODE_NAME
-          image: registry-np.geminisolutions.com/TYPE
+          image: registry-np.geminisolutions.com/NODE_NAME
           ports:
             - name: NODE_NAME
               containerPort: 5000
