@@ -32,7 +32,7 @@ else {
     env.STAGE_NAME = 'maven_Build'
 }
 
-node ($SERVICE) {
+node ($NODE_NAME) {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
@@ -62,11 +62,11 @@ node($TRIVY_NODE) {
                 dir ('repo') {
                   container($TRIVY_CONTAINER) {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
-                  sh 'echo TYPE is : $SERVICE'
+                //   sh 'echo TYPE is : $SERVICE'
 		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
                   sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g"  -e "s/REGISTRY/$REGISTRY/g" Dockerfile deployment-beta.yaml' 
 		          sh 'cat Dockerfile'	  
-                  sh 'docker image build -f Dockerfile --build-arg REGISTRY=$REGISTRY -t registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$REGISTRY .'
+                  sh 'docker image build -f Dockerfile --build-arg REGISTRY=$REGISTRY -t registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$REGISTRY .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER > trivy-report.json'
 	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
                   sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
