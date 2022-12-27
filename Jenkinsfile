@@ -1,11 +1,11 @@
 properties([
     parameters([
         choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
-        choice(name: "SERVICES", choices: ["abcd", "efgh", "ijkl", "mnop"], description: "services to be build"),
+        choice(name: "SERVICE", choices: ["abcd", "efgh", "ijkl", "mnop"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
 ])
-
+env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
 if (params.TYPE == "nodejs-16") 
@@ -64,14 +64,14 @@ node($TRIVY_NODE) {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                   sh 'echo TYPE is : $SERVICE'
 		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
-                  sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g" Dockerfile deployment-beta.yaml' 
+                  sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g"  -e "s/REGISTRY/$REGISTRY/g" Dockerfile deployment-beta.yaml' 
 		          sh 'cat Dockerfile'	  
-                  sh 'docker image build -f Dockerfile --build-arg SERVICE=$SERVICE -t registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$SERVICE .'
-                  sh 'trivy image -f json registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER > trivy-report.json'
+                  sh 'docker image build -f Dockerfile --build-arg REGISTRY=$REGISTRY -t registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$REGISTRY .'
+                  sh 'trivy image -f json registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER > trivy-report.json'
 	      archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
                   sh '''docker login -u $docker_user -p $docker_pass https://registry-np.geminisolutions.com'''
-                  sh 'docker push registry-np.geminisolutions.com/$SERVICE:1.0-$BUILD_NUMBER'
-                  sh 'docker push registry-np.geminisolutions.com/$SERVICE'
+                  sh 'docker push registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER'
+                  sh 'docker push registry-np.geminisolutions.com/$REGISTRY'
                   sh 'rm -rf build/'
                }
              }
@@ -82,7 +82,7 @@ node($TRIVY_NODE) {
                    container($TRIVY_CONTAINER) {
                    kubeconfig(credentialsId: 'KubeConfigCred') {
                    sh '/usr/local/bin/kubectl apply -f deployment-beta.yaml -n dev'
-                   sh '/usr/local/bin/kubectl rollout restart Deployment $SERVICE -n dev'
+                   sh '/usr/local/bin/kubectl rollout restart Deployment $REGISTRY -n dev'
 
                    }
                    }
