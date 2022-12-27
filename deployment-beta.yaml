@@ -21,7 +21,7 @@ spec:
           image: registry-np.geminisolutions.com/SERVICE
           ports:
             - name: SERVICE
-              containerPort: 5000
+              containerPort: PORT
           imagePullPolicy: Always
       imagePullSecrets:
         - name: regcred
