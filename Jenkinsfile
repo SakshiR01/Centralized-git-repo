@@ -39,7 +39,7 @@ node ("${env.NODE_NAME}") {
     userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/Centralized-git-repo.git', poll: 'false']]])
              }
       }
-      stage($STAGE_NAME) {
+	stage("${env.STAGE_NAME}") {
 	      container("${env.CONTAINER_NAME}") {
                 dir ('repo'){
                   sh 'rm -rf package-lock.json'
