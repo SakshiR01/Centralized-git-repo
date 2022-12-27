@@ -21,7 +21,7 @@ else if(params.TYPE == "nodejs-14")
     env.NODE_NAME = 'nodejs_runner_14' 
     env.CONTAINER_NAME = 'nodejs-14'
     env.STAGE_NAME = 'Nodejs_Build'
-    env.cmd1= 'npm install mongodb'
+    env.CMD1= 'npm install mongodb'
 }
 else if(params.TYPE == "nodejs-12")
 {
@@ -48,7 +48,7 @@ node ("${env.NODE_NAME}") {
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
                   sh 'env'
-		  sh "${env.cmd1}"
+		  sh "${env.CMD1}"
                   dir ("${env.SERVICE}/target"){
 		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
