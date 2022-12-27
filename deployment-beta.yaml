@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: NODE_NAME
+  name: SERVICE
   namespace: dev
   labels:
-    app: NODE_NAME
+    app: SERVICE
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
     matchLabels:
-      app: NODE_NAME
+      app: SERVICE
   template:
     metadata:
       labels:
-        app: NODE_NAME
+        app: SERVICE
     spec:
       containers:
-        - name: NODE_NAME
-          image: registry-np.geminisolutions.com/NODE_NAME
+        - name: SERVICE
+          image: registry-np.geminisolutions.com/SERVICE
           ports:
-            - name: NODE_NAME
+            - name: SERVICE
               containerPort: 5000
           imagePullPolicy: Always
       imagePullSecrets:
