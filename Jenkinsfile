@@ -47,6 +47,7 @@ node ("${env.NODE_NAME}") {
                 dir ('repo'){
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
+		  when { expression {env.NODE_NAME = 'nodejs_runner_14' || env.NODE_NAME = 'nodejs_runner_16'} }
                   sh 'env'
 		  sh "${env.CMD1}"
                   dir ("${env.SERVICE}/target"){
