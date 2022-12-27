@@ -6,7 +6,7 @@ properties([
     ])
 ])
 env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
-env.BRANCH= "*/main*
+env.BRANCH= "*/main*"
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
