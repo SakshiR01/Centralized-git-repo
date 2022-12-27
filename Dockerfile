@@ -2,7 +2,7 @@ FROM node:16
 RUN mkdir /src
 COPY . /src
 WORKDIR /src
-EXPOSE 5000
+EXPOSE PORT
 # Installing npm for DOCKER
 # RUN npm install
 # RUN npm install pm2 -g
