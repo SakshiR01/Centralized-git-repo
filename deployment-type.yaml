@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: NODE_NAME
-  namespace: main
+  namespace: dev
   labels:
     app: NODE_NAME
 spec:
