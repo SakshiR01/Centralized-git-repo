@@ -32,7 +32,7 @@ else {
     env.STAGE_NAME = 'maven_Build'
 }
 
-node (${env.NODE_NAME}) {
+node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
