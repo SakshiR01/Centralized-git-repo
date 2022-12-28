@@ -5,7 +5,7 @@
 
 properties([
     parameters([
-        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11", "java-17", "java-18"], description: "LANGUAGES"),
+	    choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12" ], ["java-11", "java-17", "java-18"], description: "LANGUAGES"),
         choice(name: "SERVICE", choices: ["abcd", "efgh", "ijkl", "mnop", "Centralized-git-repo"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
