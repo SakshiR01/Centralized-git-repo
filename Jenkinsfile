@@ -56,9 +56,13 @@ node ("${env.NODE_NAME}") {
                   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
 		  if (env.NODE_NAME == 'nodejs_runner_16'  || env.NODE_NAME == 'nodejs_runner_14' || env.NODE_NAME == 'nodejs_runner')
-          else ( env.NODE_NAME = 'maven_runner_java11' )
 			{
                   	  sh 'env'
+		  	  sh "${env.CMD1}"
+			}
+          else (env.NODE_NAME = 'maven_runner_java11')  
+            {
+                      sh 'env'
 		  	  sh "${env.CMD1}"
 			}
                   dir ("${env.SERVICE}/target"){
