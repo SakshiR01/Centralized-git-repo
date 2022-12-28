@@ -5,7 +5,7 @@
 
 properties([
     parameters([
-        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
+        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11", "Centralized-git-repo"], description: "LANGUAGES"),
         choice(name: "SERVICE", choices: ["abcd", "efgh", "ijkl", "mnop"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
@@ -62,7 +62,7 @@ node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: "$BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
-    userRemoteConfigs: [[credentialsId: 'admingithub', url: 'git@github.com:Gemini-Solutions/$SERVICE.git', poll: 'false']]])
+    userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/$SERVICE.git', poll: 'false']]])
              }
       }
 	stage("${env.STAGE_NAME}") {
