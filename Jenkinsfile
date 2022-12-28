@@ -60,11 +60,10 @@ node ("${env.NODE_NAME}") {
                   	  sh 'env'
 		  	  sh "${env.CMD1}"
 			}
-          else (env.NODE_NAME = 'maven_runner_java11')  
+          else 
             {
-                      sh 'env'
-		  	  sh "${env.CMD1}"
-			}
+                (env.NODE_NAME = 'maven_runner_java11') 
+            }
                   dir ("${env.SERVICE}/target"){
 		          sh 'pwd'
 //                 sh 'chmod +x *.jar'
