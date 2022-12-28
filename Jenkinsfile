@@ -1,6 +1,6 @@
 properties([
     parameters([
-        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11",""], description: "LANGUAGES"),
+        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
         choice(name: "SERVICE", choices: ["abcd", "efgh", "ijkl", "mnop"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
@@ -41,7 +41,7 @@ else if(params.TYPE == "nodejs-12")
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
 }
-else if(params.TYPE == 'maven-runner-11') {
+else  {
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
@@ -50,12 +50,25 @@ else if(params.TYPE == 'maven-runner-11') {
     env.IMAGE='adoptopenjdk/openjdk11'
 }
 
-else
-{
-    env.CMD1='echo "Code is of python" '
+// if(params.TYPE == "java-11"){
+// node {
+//   stage('SCM') {
+//     checkout scm
+//   }
+//   stage('SonarQube Analysis') {
+//     def mvn = tool 'Default Maven';
+//     withSonarQubeEnv() {
+//       sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=$SERVICE -Dsonar.projectName=$SERVICE"
+//     }
+//   }
+//   stage('Quality Gate') {
+//     timeout (time: 5, unit: 'MINUTES') {
+//        waitForQualityGate abortPipeline: true
+//        echo "code is good"
+//     }
+//   }
+// }
 }
-
-
 node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
@@ -74,7 +87,7 @@ node ("${env.NODE_NAME}") {
 		  	  sh "${env.CMD1}"
 // 			  sh "${env.CMD2}"
 			}
-          	  else if(env.NODE_NAME == 'maven_runner_java11')
+          	  else 
             	   {
 //                   	  sh 'env'
 		  	  sh "${env.CMD1}"
@@ -84,9 +97,6 @@ node ("${env.NODE_NAME}") {
 //                 	    sh 'chmod +x *.jar'
               		}
             	   }
-		else{
-			sh "${env.CMD1}"
-		}
             }
            }
          }
