@@ -6,9 +6,16 @@ properties([
     ])
 ])
 
+
+if(params.SERVICES=="abcd")
+{
+  env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
+  env.BRANCH= "*/main*"
+}
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
+
 if (params.TYPE == "nodejs-16") 
 {
     env.NODE_NAME = 'nodejs_runner_16' 
@@ -35,11 +42,6 @@ else {
     env.STAGE_NAME = 'maven_Build'
 }
 
-if(params.SERVICES=="abcd")
-{
-  env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
-  env.BRANCH= "*/main*"
-}
 
 node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
