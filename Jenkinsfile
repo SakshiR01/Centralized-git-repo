@@ -65,7 +65,7 @@ else if(params.TYPE == "java-17")
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
 //     env.CMD2= 'mvn package'
-    env.IMAGE='adoptopenjdk/openjdk17'
+//     env.IMAGE='adoptopenjdk/openjdk17'
 }
 else 
 {
@@ -74,7 +74,7 @@ else
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
 //     env.CMD2= 'mvn package'
-    env.IMAGE='adoptopenjdk/openjdk18'
+//     env.IMAGE='adoptopenjdk/openjdk18'
 }
 
 node ("${env.NODE_NAME}") {
