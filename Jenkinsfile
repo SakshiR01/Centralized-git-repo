@@ -22,7 +22,7 @@ if (params.TYPE == "nodejs-16")
     env.CONTAINER_NAME = 'nodejs-16'
     env.STAGE_NAME = 'Nodejs_Build'
     env.CMD1= 'npm install'
-    env.CMD2= 'npm run build'
+//     env.CMD2= 'npm run build'
     env.IMAGE='node:16'
 } 
 else if(params.TYPE == "nodejs-14")
@@ -31,7 +31,7 @@ else if(params.TYPE == "nodejs-14")
     env.CONTAINER_NAME = 'nodejs-14'
     env.STAGE_NAME = 'Nodejs_Build'
     env.CMD1= 'npm install'
-    env.CMD2= 'npm run build'
+//     env.CMD2= 'npm run build'
 }
 else if(params.TYPE == "nodejs-12")
 {
@@ -66,7 +66,7 @@ node ("${env.NODE_NAME}") {
 			{
                   	  sh 'env'
 		  	  sh "${env.CMD1}"
-			  sh "${env.CMD2}"
+// 			  sh "${env.CMD2}"
 			}
           	  else 
             	   {
