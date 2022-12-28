@@ -7,7 +7,7 @@ properties([
 ])
 
 
-if(params.SERVICES=="abcd")
+if(params.SERVICE=="abcd")
 {
   env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
   env.BRANCH= "*/main*"
