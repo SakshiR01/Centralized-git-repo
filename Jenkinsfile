@@ -23,6 +23,7 @@ if (params.TYPE == "nodejs-16")
     env.STAGE_NAME = 'Nodejs_Build'
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
+    env.IMAGE='node:16'
 } 
 else if(params.TYPE == "nodejs-14")
 {
@@ -90,7 +91,7 @@ node("${env.TRIVY_NODE}") {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 //   sh 'echo TYPE is : $SERVICE'
 		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
-                  sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g"  -e "s/REGISTRY/$REGISTRY/g" Dockerfile deployment-beta.yaml' 
+                  sh 'sed -i -e "s/SERVICE/$SERVICE/g" -e "s/PORT/$PORT/g"  -e "s/REGISTRY/$REGISTRY/g" -e "s/IMAGE/$IMAGE/g" Dockerfile deployment-beta.yaml' 
 		          sh 'cat Dockerfile'	  
                   sh 'docker image build -f Dockerfile --build-arg REGISTRY=$REGISTRY -t registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$REGISTRY .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER > trivy-report.json'
