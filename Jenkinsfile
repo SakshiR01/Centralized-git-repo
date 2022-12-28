@@ -49,7 +49,7 @@ else if(params.TYPE == "nodejs-12")
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
 }
-else if(params.TYPE == "java-11") 
+else 
 {
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
