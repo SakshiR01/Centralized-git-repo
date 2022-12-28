@@ -1,3 +1,8 @@
+// POINTS TO TAKE CARE OFF:-
+// 	1)Please change BRANCH variable according to your application branch.
+// 	2)Please put the repository name same as service name.
+
+
 properties([
     parameters([
         choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
@@ -13,8 +18,6 @@ properties([
 //   env.BRANCH= "*/main*"
 // }
 
-//please change according to your application.
-//Please put the repository name same as service name.
 env.BRANCH="*/main"
 
 env.REGISTRY= params.SERVICE.toLowerCase()
