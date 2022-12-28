@@ -1,4 +1,4 @@
-FROM node:16
+FROM IMAGE
 RUN mkdir /src
 COPY . /src
 WORKDIR /src
