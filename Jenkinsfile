@@ -5,8 +5,7 @@ properties([
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
 ])
-env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
-env.BRANCH= "*/main*"
+
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
@@ -34,6 +33,12 @@ else {
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
+}
+
+if(params.SERVICES=="abcd")
+{
+  env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
+  env.BRANCH= "*/main*"
 }
 
 node ("${env.NODE_NAME}") {
