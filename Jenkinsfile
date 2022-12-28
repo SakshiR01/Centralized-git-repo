@@ -49,7 +49,7 @@ else if(params.TYPE == "nodejs-12")
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
 }
-else if(params.TYPE == "java-17") 
+else if(params.TYPE == "java-11") 
 {
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
@@ -58,14 +58,14 @@ else if(params.TYPE == "java-17")
 //     env.CMD2= 'mvn package'
     env.IMAGE='adoptopenjdk/openjdk11'
 }
-else if(params.TYPE == "java-18")  
+else if(params.TYPE == "java-17")  
 {
     env.NODE_NAME = 'maven_runner_java17'
     env.CONTAINER_NAME = 'maven-runner-17'
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
 //     env.CMD2= 'mvn package'
-    env.IMAGE='adoptopenjdk/openjdk11'
+    env.IMAGE='adoptopenjdk/openjdk17'
 }
 else 
 {
@@ -74,7 +74,7 @@ else
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
 //     env.CMD2= 'mvn package'
-    env.IMAGE='adoptopenjdk/openjdk11'
+    env.IMAGE='adoptopenjdk/openjdk18'
 }
 
 node ("${env.NODE_NAME}") {
