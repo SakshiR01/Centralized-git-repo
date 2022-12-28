@@ -53,7 +53,7 @@ node ("${env.NODE_NAME}") {
 	stage("${env.STAGE_NAME}") {
 	      container("${env.CONTAINER_NAME}") {
                 dir ('repo'){
-                  sh 'rm -rf package-lock.json'
+                //   sh 'rm -rf package-lock.json'
                   //sh 'npm cache clean --force'
 		  if (env.NODE_NAME == 'nodejs_runner_16'  || env.NODE_NAME == 'nodejs_runner_14' || env.NODE_NAME == 'nodejs_runner')
 			{
