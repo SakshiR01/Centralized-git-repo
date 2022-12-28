@@ -49,7 +49,8 @@ else if(params.TYPE == "nodejs-12")
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
 }
-else if {
+else if(params.TYPE == "java17") 
+{
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
@@ -57,7 +58,8 @@ else if {
 //     env.CMD2= 'mvn package'
     env.IMAGE='adoptopenjdk/openjdk11'
 }
-else if {
+else if(params.TYPE == "java18")  
+{
     env.NODE_NAME = 'maven_runner_java17'
     env.CONTAINER_NAME = 'maven-runner-17'
     env.STAGE_NAME = 'maven_Build'
@@ -65,7 +67,8 @@ else if {
 //     env.CMD2= 'mvn package'
     env.IMAGE='adoptopenjdk/openjdk11'
 }
-else {
+else 
+{
     env.NODE_NAME = 'maven_runner_java18'
     env.CONTAINER_NAME = 'maven-runner-18'
     env.STAGE_NAME = 'maven_Build'
@@ -142,4 +145,4 @@ node("${env.TRIVY_NODE}") {
          //sh 'echo current_image="registry-np.geminisolutions.com/helpdesk/server:1.0-$BUILD_NUMBER" > build.properties'
          //archiveArtifacts artifacts: 'build.properties', onlyIfSuccessful: true
          }
-       }
+        }
