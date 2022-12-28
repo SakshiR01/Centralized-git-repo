@@ -45,7 +45,7 @@ else {
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
-    env.CMD2= 'mvn package'
+//     env.CMD2= 'mvn package'
 }
 
 
@@ -72,10 +72,10 @@ node ("${env.NODE_NAME}") {
 
 //                   	  sh 'env'
 		  	  sh "${env.CMD1}"
-			  sh "${env.CMD2}"
+// 			  sh "${env.CMD2}"
 		 	  dir ("${env.SERVICE}/target"){
 		            sh 'pwd'
-                	    sh 'chmod +x *.jar'
+//                 	    sh 'chmod +x *.jar'
               		}
             	   }
             }
