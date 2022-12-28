@@ -5,7 +5,7 @@
 
 properties([
     parameters([
-        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11"], description: "LANGUAGES"),
+        choice(name: "TYPE", choices: ["nodejs-16", "nodejs-14", "nodejs-12", "java-11", "java17", "java18"], description: "LANGUAGES"),
         choice(name: "SERVICE", choices: ["abcd", "efgh", "ijkl", "mnop", "Centralized-git-repo"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
@@ -49,9 +49,25 @@ else if(params.TYPE == "nodejs-12")
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
 }
-else  {
+else if {
     env.NODE_NAME = 'maven_runner_java11'
     env.CONTAINER_NAME = 'maven-runner-11'
+    env.STAGE_NAME = 'maven_Build'
+    env.CMD1= 'rm -rf target'
+//     env.CMD2= 'mvn package'
+    env.IMAGE='adoptopenjdk/openjdk11'
+}
+else if {
+    env.NODE_NAME = 'maven_runner_java17'
+    env.CONTAINER_NAME = 'maven-runner-17'
+    env.STAGE_NAME = 'maven_Build'
+    env.CMD1= 'rm -rf target'
+//     env.CMD2= 'mvn package'
+    env.IMAGE='adoptopenjdk/openjdk11'
+}
+else {
+    env.NODE_NAME = 'maven_runner_java18'
+    env.CONTAINER_NAME = 'maven-runner-18'
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
 //     env.CMD2= 'mvn package'
