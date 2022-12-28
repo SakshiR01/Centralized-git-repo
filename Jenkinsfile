@@ -21,20 +21,24 @@ if (params.TYPE == "nodejs-16")
     env.NODE_NAME = 'nodejs_runner_16' 
     env.CONTAINER_NAME = 'nodejs-16'
     env.STAGE_NAME = 'Nodejs_Build'
-    env.CMD1= 'npm install mongodb'
+    env.CMD1= 'npm install'
+    env.CMD2= 'npm run build'
 } 
 else if(params.TYPE == "nodejs-14")
 {
     env.NODE_NAME = 'nodejs_runner_14' 
     env.CONTAINER_NAME = 'nodejs-14'
     env.STAGE_NAME = 'Nodejs_Build'
-    env.CMD1= 'npm install mongodb'
+    env.CMD1= 'npm install'
+    env.CMD2= 'npm run build'
 }
 else if(params.TYPE == "nodejs-12")
 {
     env.NODE_NAME = 'nodejs_runner'
     env.CONTAINER_NAME = 'nodejs-12'
     env.STAGE_NAME = 'Nodejs_Build' 
+    env.CMD1= 'npm install'
+    env.CMD2= 'npm run build'
 }
 else {
     env.NODE_NAME = 'maven_runner_java11'
@@ -59,6 +63,7 @@ node ("${env.NODE_NAME}") {
 			{
                   	  sh 'env'
 		  	  sh "${env.CMD1}"
+			  sh "${env.CMD2}"
 			}
           else 
             {
