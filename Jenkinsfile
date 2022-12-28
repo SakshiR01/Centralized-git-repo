@@ -7,11 +7,16 @@ properties([
 ])
 
 
-if(params.SERVICE=="abcd")
-{
-  env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
-  env.BRANCH= "*/main*"
-}
+// if(params.SERVICE=="abcd")
+// {
+//   env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
+//   env.BRANCH= "*/main*"
+// }
+
+//please change according to your application.
+//Please put the repository name same as service name.
+env.BRANCH="*/main"
+
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
 env.TRIVY_CONTAINER = 'docker-image-builder-trivy'
@@ -50,30 +55,11 @@ else  {
     env.IMAGE='adoptopenjdk/openjdk11'
 }
 
-// if(params.TYPE == "java-11"){
-// node {
-//   stage('SCM') {
-//     checkout scm
-//   }
-//   stage('SonarQube Analysis') {
-//     def mvn = tool 'Default Maven';
-//     withSonarQubeEnv() {
-//       sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=$SERVICE -Dsonar.projectName=$SERVICE"
-//     }
-//   }
-//   stage('Quality Gate') {
-//     timeout (time: 5, unit: 'MINUTES') {
-//        waitForQualityGate abortPipeline: true
-//        echo "code is good"
-//     }
-//   }
-// }
-// }
 node ("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: "$BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
-    userRemoteConfigs: [[credentialsId: 'admingithub', url: "$SSH_LINK", poll: 'false']]])
+    userRemoteConfigs: [[credentialsId: 'admingithub', url: 'git@github.com:Gemini-Solutions/$SERVICE.git', poll: 'false']]])
              }
       }
 	stage("${env.STAGE_NAME}") {
