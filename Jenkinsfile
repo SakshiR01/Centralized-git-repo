@@ -25,7 +25,7 @@ if (params.TYPE == "nodejs-16")
     env.CMD1= 'npm install'
 //  env.CMD2= 'npm run build'
     env.IMAGE='node:16'
-    env.COPY_CMD= './\build /\usr/\share/\nginx/\html'  
+    env.COPY_CMD= './build /usr/share/nginx/html'  
 } 
 
 else if (params.TYPE == "nodejs-14")
