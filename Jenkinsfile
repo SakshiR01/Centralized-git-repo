@@ -25,7 +25,7 @@ if (params.TYPE == "nodejs-16")
     env.CMD1= 'npm install'
 //  env.CMD2= 'npm run build'
     env.IMAGE='node:16'
-//     env.COPY_CMD= './build /usr/share/nginx/html'  
+    env.COPY_CMD= '.\\/build \\/usr\\/share\\/nginx\\/html' 
 } 
 
 else if (params.TYPE == "nodejs-14")
@@ -37,6 +37,7 @@ else if (params.TYPE == "nodejs-14")
     env.CMD2= 'npm run build'
     env.IMAGE=' nginx:1.17.1-alpine' 
 //we need to add "\" before "/" to skip it, basically it will act as a de-limiter
+// added:- one more back slash as, "\" it's a special character, which groovy doesn't support, so we need to skip it.
     env.COPY_CMD= '.\\/build \\/usr\\/share\\/nginx\\/html' 
 }
 else
@@ -47,7 +48,7 @@ else
     env.CMD1= 'npm install'
     env.CMD2= 'npm run build'
     env.IMAGE='nginx:1.17.1-alpine'
-//     env.COPY_CMD= './build /usr/share/nginx/html' 
+    env.COPY_CMD= '.\\/build \\/usr\\/share\\/nginx\\/html' 
 }
 
 node ("${env.NODE_NAME}") {
