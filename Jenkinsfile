@@ -48,6 +48,7 @@ node("${env.NODE_NAME}") {
            }
          }
        }
+}
 
 
 //Docker and Deployment Stage
