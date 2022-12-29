@@ -20,7 +20,7 @@ if(params.TYPE == "java-11")
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
     // env.CMD2= 'mvn package'
-    env.IMAGE='adoptopenjdk/openjdk11'
+    env.IMAGE='adoptopenjdk\\/openjdk11'
     env.WORKDIR_CMD= '\\/home\\/'
 }
 
