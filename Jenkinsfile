@@ -41,7 +41,7 @@ node("${env.NODE_NAME}") {
 			        // sh "${env.CMD2}"
 		 	        dir ("${env.SERVICE}/target"){
 		            sh 'pwd'
-                	    sh 'chmod +x *.?ar' //*.*
+//                 	    sh 'chmod +x *.?ar' //*.*
 			    }
             }
            }
