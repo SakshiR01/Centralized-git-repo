@@ -63,7 +63,7 @@ node ("${env.NODE_NAME}") {
 			    {
                   	sh 'env'
 		  	        sh "${env.CMD1}"
-			        sh "${env.CMD2}"
+// 			        sh "${env.CMD2}"
 			    }
             }
            }
