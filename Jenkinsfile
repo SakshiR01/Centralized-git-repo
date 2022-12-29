@@ -22,7 +22,7 @@ if(params.TYPE == "java-11")
     // env.CMD2= 'mvn package'
     env.IMAGE='adoptopenjdk/openjdk11'
     env.COPY_CMD= 'target/$SERVICE.jar /home/' 
-    env.WORKDIR_CMD='/src'
+    env.WORKDIR_CMD='home'
 }
 
 node("${env.NODE_NAME}") {
