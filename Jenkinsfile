@@ -25,7 +25,7 @@ if(params.TYPE == "java-11")
     env.WORKDIR_CMD='/src'
 }
 
-("${env.NODE_NAME}") {
+node("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: "$BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
