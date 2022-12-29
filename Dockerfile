@@ -1,6 +1,6 @@
 FROM IMAGE
 MAINTAINER MAINTAINER
-COPY target/$SERVICE*.war /home/
+COPY target/SERVICE*.war /home/
 WORKDIR /home/
 EXPOSE PORT
-ENTRYPOINT ["java","-jar","$SERVICE-SNAPSHOT.?ar"]
+ENTRYPOINT ["java","-jar","SERVICE-SNAPSHOT.?ar"]
