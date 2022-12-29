@@ -36,7 +36,8 @@ else if (params.TYPE == "nodejs-14")
     env.CMD1= 'npm install' 
     env.CMD2= 'npm run build'
     env.IMAGE=' nginx:1.17.1-alpine' 
-    env.COPY_CMD= './build /usr/share/nginx/html' 
+//we need to add "\" before "/" to skip it, basically it will act as a de-limiter
+    env.COPY_CMD= '.\/build \/usr\/share\/nginx\/html' 
 }
 else
 {
@@ -80,7 +81,7 @@ node("${env.TRIVY_NODE}") {
                   withCredentials([usernamePassword(credentialsId: 'docker_registry', passwordVariable: 'docker_pass', usernameVariable: 'docker_user')]) {
                 //   sh 'echo TYPE is : $SERVICE'
 		        //   sh 'sed -i -e "s/SERVICE/$SERVICE/g" Dockerfile deployment-type.yaml' 
-                  sh 'sed -i -e "s/SERVICES/$SERVICES/g" -e "s/PORT/$PORT/g" -e "s/REGISTRY/$REGISTRY/g" Dockerfile Deployment-beta.yaml'
+                  sh 'sed -i -e "s/PORT/$PORT/g" -e "s/REGISTRY/$REGISTRY/g" -e "s/COPY_CMD/$COPY_CMD/g" Dockerfile Deployment-beta.yaml'
 		          sh 'cat Dockerfile'	  
                   sh 'docker image build -f Dockerfile --build-arg REGISTRY=$REGISTRY -t registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER -t registry-np.geminisolutions.com/$REGISTRY .'
                   sh 'trivy image -f json registry-np.geminisolutions.com/$REGISTRY:1.0-$BUILD_NUMBER > trivy-report.json' archiveArtifacts artifacts: 'trivy-report.json', onlyIfSuccessful: true
