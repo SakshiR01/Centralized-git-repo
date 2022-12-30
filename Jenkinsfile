@@ -25,7 +25,7 @@ if(params.TYPE == "java-11")
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
-    env.CMD2= 'mvn package'
+    env.CMD2= 'mvn package -Dmaven.test.skip=true'
     env.IMAGE='adoptopenjdk\\/openjdk11'
     env.WORKDIR_CMD= '\\/home\\/'
 }
