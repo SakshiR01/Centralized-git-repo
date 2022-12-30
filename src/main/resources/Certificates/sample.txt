@@ -1,0 +1,1 @@
+This file is used so that Certificates folder doesn't gets deleted on Github

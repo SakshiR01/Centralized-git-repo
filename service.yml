@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: gem-cpbe-demo
+    app.kubernetes.io/instance: gem-eks
+  name: gem-cpbe-demo
+spec:
+  selector:
+    app: gem-cpbe-demo
+  type: LoadBalancer
+  ports:
+   -  protocol: TCP
+      port: 80
+      targetPort: 8080
