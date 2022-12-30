@@ -1,13 +1,19 @@
 properties([
     parameters([
 	    choice(name: "TYPE", choices: ["java-11", "java-17", "java-18"], description: "LANGUAGES"),
-        choice(name: "SERVICE", choices: ["Centralized-git-repo"], description: "services to be build"),
+        choice(name: "SERVICE", choices: ["Test-CP"], description: "services to be build"),
         choice(name: "PORT", choices: ["8081", "80", "8080", "8999"], description: "port to be used"),
     ])
 ])
 
 env.BRANCH="*/main"
 env.MAINTAINER= "sakshi.raghav@geminisolutions.com"
+
+if(params.SERVICE=="Test-CP")
+{
+    env.SSH_LINK= 'https://github.com/SakshiR01/Centralized-git-repo.git'
+    env.BRANCH= "*/main*"
+}
 
 env.REGISTRY= params.SERVICE.toLowerCase()
 env.TRIVY_NODE = 'image_builder_trivy'
@@ -19,7 +25,7 @@ if(params.TYPE == "java-11")
     env.CONTAINER_NAME = 'maven-runner-11'
     env.STAGE_NAME = 'maven_Build'
     env.CMD1= 'rm -rf target'
-    // env.CMD2= 'mvn package'
+    env.CMD2= 'mvn package'
     env.IMAGE='adoptopenjdk\\/openjdk11'
     env.WORKDIR_CMD= '\\/home\\/'
 }
@@ -28,7 +34,7 @@ node("${env.NODE_NAME}") {
       stage('Repo_Checkout') {
              dir ('repo') {
              checkout([$class: 'GitSCM', branches: [[name: "$BRANCH"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg:  [], \
-    userRemoteConfigs: [[credentialsId: 'admingithub', url: 'https://github.com/SakshiR01/$SERVICE.git', poll: 'false']]])
+    userRemoteConfigs: [[credentialsId: 'admingithub', url: "$SSH_LINK", poll: 'false']]])
              }
       }
 	stage("${env.STAGE_NAME}") {
@@ -38,10 +44,10 @@ node("${env.NODE_NAME}") {
 			    {
                     sh 'env'
 		  	        sh "${env.CMD1}"
-			        // sh "${env.CMD2}"
-		 	        dir ("${env.SERVICE}/target"){
+			        sh "${env.CMD2}"
+		 	        dir ('/target'){
 		            sh 'pwd'
-//                 	    sh 'chmod +x *.?ar' //*.*
+                	    sh 'chmod +x *.?ar' //*.*
 			    }
             }
            }
