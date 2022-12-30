@@ -6,7 +6,7 @@ properties([
     ])
 ])
 
-env.BRANCH="*/main"
+// env.BRANCH="*/main"
 env.MAINTAINER= "sakshi.raghav@geminisolutions.com"
 
 if(params.SERVICE=="Test-CP")
